@@ -40,9 +40,11 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
       return acc;
     }, {} as Record<string, { sales: number; profit: number; units: number; count: number }>);
 
-    // Calculate global max for fixed Y-axis
-    const globalMaxSales = Math.max(...Object.values(dayData).map(d => d.sales));
-    const yAxisMax = Math.ceil(globalMaxSales * 1.1 / 1000000) * 1000000; // Round up to nearest million
+    // Calculate global max for fixed Y-axis across sales & profit
+    const globalMax = Math.max(
+      ...Object.values(dayData).map(d => Math.max(d.sales, d.profit))
+    );
+    const yAxisMax = Math.ceil(globalMax * 1.1 / 1000000) * 1000000; // Round up to nearest million
 
     // Order data by day of week
     const orderedData = dayOrder.map(day => ({
@@ -57,13 +59,17 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
     const salesData = orderedData.map(d => d.sales);
     const profitData = orderedData.map(d => d.profit);
 
-    // Day colors - blue variations with weekend highlight
-    const dayColors = dayOrder.map(day => {
-      if (day === 'Saturday' || day === 'Sunday') {
-        return 'rgba(66, 134, 244, 0.9)'; // Brighter blue for weekends
-      }
-      return 'rgba(0, 78, 146, 0.7)'; // Standard blue for weekdays
-    });
+    // Colors for weekdays vs weekends
+    const salesColors = dayOrder.map(day =>
+      day === 'Saturday' || day === 'Sunday'
+        ? 'rgba(66, 134, 244, 0.8)' // weekend brighter blue
+        : 'rgba(0, 78, 146, 0.7)'  // weekday darker blue
+    );
+    const profitColors = dayOrder.map(day =>
+      day === 'Saturday' || day === 'Sunday'
+        ? 'rgba(76, 175, 80, 0.8)' // weekend green
+        : 'rgba(34, 139, 34, 0.7)' // weekday darker green
+    );
 
     chartInstance.current = new Chart(ctx, {
       type: 'bar',
@@ -73,8 +79,15 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
           {
             label: 'Daily Sales (₹)',
             data: salesData,
-            backgroundColor: dayColors,
-            borderColor: dayColors.map(color => color.replace('0.7', '1').replace('0.9', '1')),
+            backgroundColor: salesColors,
+            borderColor: salesColors.map(c => c.replace('0.7', '1').replace('0.8', '1')),
+            borderWidth: 2,
+          },
+          {
+            label: 'Daily Profit (₹)',
+            data: profitData,
+            backgroundColor: profitColors,
+            borderColor: profitColors.map(c => c.replace('0.7', '1').replace('0.8', '1')),
             borderWidth: 2,
           }
         ]
@@ -82,10 +95,14 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false,
+        },
         plugins: {
           title: {
             display: true,
-            text: 'Day-of-Week Sales Comparison (Fixed Scale)',
+            text: 'Day-of-Week Sales vs Profit (Fixed Scale)',
             font: { size: 16, weight: 'bold' }
           },
           legend: {
@@ -104,7 +121,7 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
                 return [
                   `Total Profit: ${formatCurrency(dayInfo.profit)}`,
                   `Units Sold: ${formatNumber(dayInfo.units)}`,
-                  `Avg Revenue per Transaction: ${formatCurrency(dayInfo.avgRevenue)}`
+                  `Avg Revenue/Txn: ${formatCurrency(dayInfo.avgRevenue)}`
                 ];
               }
             }
@@ -116,13 +133,14 @@ export const DayOfWeekChart: React.FC<DayOfWeekChartProps> = ({ data, onDayClick
             title: {
               display: true,
               text: 'Day of Week'
-            }
+            },
+            stacked: false,
           },
           y: {
             display: true,
             title: {
               display: true,
-              text: 'Sales (₹)'
+              text: '₹ (Sales & Profit)'
             },
             min: 0,
             max: yAxisMax,
