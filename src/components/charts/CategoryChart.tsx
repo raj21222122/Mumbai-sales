@@ -38,14 +38,17 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ data, onCategoryCl
     }, {} as Record<string, { sales: number; profit: number; units: number; records: SalesRecord[] }>);
 
     const totalRevenue = Object.values(categoryData).reduce((sum, cat) => sum + cat.sales, 0);
-    
+
     // Sort by sales descending
-    const sortedCategories = Object.entries(categoryData)
-      .sort(([,a], [,b]) => b.sales - a.sales);
+    const sortedCategories = Object.entries(categoryData).sort(([, a], [, b]) => b.sales - a.sales);
 
     const labels = sortedCategories.map(([category]) => category);
-    const salesData = sortedCategories.map(([,data]) => data.sales);
-    const profitData = sortedCategories.map(([,data]) => data.profit);
+    const salesData = sortedCategories.map(([, data]) => data.sales);
+    const profitData = sortedCategories.map(([, data]) => data.profit);
+
+    // Get common scale max, rounded to nearest million
+    const rawMax = Math.max(...salesData, ...profitData);
+    const scaleMax = Math.ceil(rawMax / 1_000_000) * 1_000_000;
 
     chartInstance.current = new Chart(ctx, {
       type: 'bar',
@@ -97,7 +100,7 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ data, onCategoryCl
                 const [category, data] = sortedCategories[index];
                 const avgMargin = (data.profit / data.sales) * 100;
                 const revenueShare = (data.sales / totalRevenue) * 100;
-                
+
                 return [
                   `Units Sold: ${formatNumber(data.units)}`,
                   `Avg Profit Margin: ${avgMargin.toFixed(1)}%`,
@@ -124,6 +127,8 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ data, onCategoryCl
               text: 'Sales (₹)',
               color: 'rgba(0, 78, 146, 1)'
             },
+            min: 0,
+            max: scaleMax, // 🔥 same max for both axes
             ticks: {
               callback: function(value) {
                 return formatCurrency(value as number);
@@ -142,6 +147,8 @@ export const CategoryChart: React.FC<CategoryChartProps> = ({ data, onCategoryCl
             grid: {
               drawOnChartArea: false,
             },
+            min: 0,
+            max: scaleMax, // 🔥 sync with y
             ticks: {
               callback: function(value) {
                 return formatCurrency(value as number);
