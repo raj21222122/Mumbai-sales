@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, Target, TrendingUp, Users, Zap, Gift } from 'lucide-react';
+import { Package, Target, TrendingUp, Users, Zap, Gift, Calendar, Coffee } from 'lucide-react';
 import { SalesRecord } from '../types';
 import { formatCurrency, formatNumber } from '../utils/dataProcessor';
 
@@ -12,93 +12,108 @@ export const RecommendationCards: React.FC<RecommendationCardsProps> = ({ data, 
 
   const recommendations = [
     {
-      icon: <Package className="text-blue-500" size={24} />,
-      title: "Inventory Optimization",
-      description: "Shift stock from underperforming stores to top-performing locations",
-      impact: "+40% sales potential",
-      color: "from-blue-400 to-blue-600",
-      bgColor: "bg-blue-50",
-      chartId: "category-sales-profit",
-      dynamicEvidence: "Andheri & Bandra = 67.3% revenue; Colaba = 32.7%. Shifting 20% of Colaba's inventory to top stores could increase sell-through by 25–30%.",
+      icon: <Calendar className="text-red-500" size={24} />,
+      title: "Mid-Week Momentum (Wednesday Spike)",
+      description: "Turn Wednesday into a brand ritual with themed sales and loyalty bonuses.",
+      impact: "+15–20% mid-week revenue",
+      color: "from-red-400 to-red-600",
+      bgColor: "bg-red-50",
+      chartId: "day-of-week-comparison",
+      dynamicEvidence: "Wednesday consistently shows a revenue spike vs. other weekdays. Structured offers can amplify this natural momentum.",
       details: [
-        "Focus on Andheri & Bandra stores",
-        "Reduce Colaba inventory by 20%",
-        "Increase smartphone stock for Diwali"
+        "Launch 'Mid-Week Mega Sale' every Wednesday",
+        "Double loyalty points on Wednesday purchases",
+        "Promote exclusive bundles only available mid-week"
       ]
     },
     {
       icon: <Gift className="text-green-500" size={24} />,
-      title: "Bundling Strategy",
-      description: "Create smartphone + accessory bundles with attractive discounts",
+      title: "Smart Bundling",
+      description: "Pair high-demand items (smartphones) with high-margin accessories for seamless upsell.",
       impact: "+25% profit margin",
       color: "from-green-400 to-green-600",
       bgColor: "bg-green-50",
       chartId: "category-sales-profit",
-      dynamicEvidence: "Accessories = 2.8% of revenue, with 40% average margin. Bundling with smartphones can increase accessory attach rate by ~10–15%.",
+      dynamicEvidence: "Accessories = 2.8% revenue but 40% margin. Bundling with smartphones can increase attach rate by ~10–15%.",
       details: [
-        "10% discount on bundles",
-        "Smartphone + Audio combos",
-        "Premium accessory packages"
+        "Offer smartphone + earbud combos",
+        "Highlight 'back-to-college' bundles",
+        "Promote limited-time festival kits"
       ]
     },
     {
       icon: <Target className="text-purple-500" size={24} />,
-      title: "Weekend Marketing",
-      description: "Focus advertising campaigns on Friday–Sunday peak periods",
-      impact: "+60% ROI",
+      title: "Weekend Blitz",
+      description: "Maximize Friday–Sunday with digital-first campaigns and in-store events.",
+      impact: "+60% ROI on campaigns",
       color: "from-purple-400 to-purple-600",
       bgColor: "bg-purple-50",
       chartId: "day-of-week-comparison",
-      dynamicEvidence: "Avg weekend revenue/day = ₹10,06,072; weekday = ₹8,04,862. Weekend lift = +25.0%.",
+      dynamicEvidence: "Avg weekend revenue/day = ₹10,06,072 vs. weekday = ₹8,04,862. Weekend uplift = +25.0%.",
       details: [
-        "Social media blitz on weekends",
-        "In-store promotions Friday–Sunday",
-        "Email campaigns Thursday evening"
+        "Push social media reels Friday morning",
+        "Run 'Sunday Surprise' flash deals",
+        "SMS/email blasts on Thursday evening"
+      ]
+    },
+    {
+      icon: <Coffee className="text-amber-500" size={24} />,
+      title: "Experiential Wednesdays",
+      description: "Use the mid-week spike to create a customer experience day, not just discounts.",
+      impact: "Stronger brand stickiness",
+      color: "from-amber-400 to-amber-600",
+      bgColor: "bg-amber-50",
+      chartId: "day-of-week-comparison",
+      dynamicEvidence: "Customers already choose mid-week. Experience-based promotions can make it a habit.",
+      details: [
+        "Free coffee/snacks in-store on Wednesdays",
+        "Live product demos or Q&A sessions",
+        "Gamified spin-the-wheel rewards mid-week"
       ]
     },
     {
       icon: <TrendingUp className="text-orange-500" size={24} />,
       title: "Premium Push",
-      description: "Promote high-margin audio products during Diwali",
+      description: "Highlight audio gear as aspirational Diwali gifts with in-store demos.",
       impact: "+35% profit",
       color: "from-orange-400 to-orange-600",
       bgColor: "bg-orange-50",
       chartId: "category-sales-profit",
-      dynamicEvidence: "Audio margin = 30% (higher than smartphones). Promoting yields higher profit per unit sold.",
+      dynamicEvidence: "Audio products = 30% margin vs. smartphones ~20%. Pushing these improves profitability.",
       details: [
-        "Audio equipment showcase",
-        "Demonstration zones in stores",
-        "Expert consultation services"
+        "Create festive audio gift zones",
+        "Offer 'try-before-you-buy' demo booths",
+        "Bundle audio gear with festival vouchers"
       ]
     },
     {
       icon: <Users className="text-pink-500" size={24} />,
-      title: "Customer Segmentation",
-      description: "Target different demographics with personalized offers",
+      title: "Hyper-Personalization",
+      description: "Target different customer groups with context-driven offers.",
       impact: "+20% conversion",
       color: "from-pink-400 to-pink-600",
       bgColor: "bg-pink-50",
       chartId: "category-sales-profit",
-      dynamicEvidence: "Revenue patterns show 3 clear segments: Laptops for professionals, Smartphones for general consumers, Audio for enthusiasts.",
+      dynamicEvidence: "Clear segments: laptops for students, smartphones for families, audio for enthusiasts.",
       details: [
-        "Student laptop deals",
-        "Professional smartphone offers",
-        "Family audio packages"
+        "Student laptop cashback + free accessory",
+        "Professional smartphone EMI schemes",
+        "Festive family audio combos"
       ]
     },
     {
       icon: <Zap className="text-indigo-500" size={24} />,
-      title: "Flash Sales",
-      description: "Limited-time offers on slow-moving inventory",
+      title: "Targeted Flash Sales",
+      description: "Use data to clear slow-moving stock with urgency tactics.",
       impact: "+30% turnover",
       color: "from-indigo-400 to-indigo-600",
       bgColor: "bg-indigo-50",
       chartId: "cumulative-growth",
-      dynamicEvidence: "Inventory turnover analysis shows specific slow-moving periods. Flash sales can improve turnover by 25–35%.",
+      dynamicEvidence: "Slow-moving SKUs identified in inventory analysis. Time-bound offers can improve sell-through 25–35%.",
       details: [
-        "24-hour flash sales",
-        "Limited quantity promotions",
-        "Early bird discounts"
+        "24-hour clearance sales",
+        "Push notifications for app users",
+        "Limited quantity 'FOMO' deals"
       ]
     }
   ];
@@ -107,7 +122,7 @@ export const RecommendationCards: React.FC<RecommendationCardsProps> = ({ data, 
     <div className="space-y-8">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-4">Strategic Recommendations</h2>
-        <p className="text-lg text-gray-600">Data-driven insights for maximizing Diwali sales performance</p>
+        <p className="text-lg text-gray-600">Creative, data-driven insights to maximize Diwali sales</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -167,15 +182,15 @@ export const RecommendationCards: React.FC<RecommendationCardsProps> = ({ data, 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
           <div>
             <div className="text-yellow-300 font-bold text-lg mb-2">IMMEDIATE</div>
-            <p>Weekend Marketing, Flash Sales</p>
+            <p>Mid-Week Momentum, Experiential Wednesdays, Weekend Blitz</p>
           </div>
           <div>
             <div className="text-green-300 font-bold text-lg mb-2">SHORT-TERM</div>
-            <p>Inventory Optimization, Bundling</p>
+            <p>Smart Bundling, Targeted Flash Sales</p>
           </div>
           <div>
             <div className="text-blue-300 font-bold text-lg mb-2">LONG-TERM</div>
-            <p>Customer Segmentation, Premium Push</p>
+            <p>Premium Push, Hyper-Personalization</p>
           </div>
         </div>
       </div>
